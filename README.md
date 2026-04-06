@@ -7,6 +7,7 @@
 ![GitHub Actions](https://img.shields.io/badge/Webhook-GitHub-181717?style=flat-square&logo=github&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
+![CI](https://github.com/hugpaim/gitops-deployer/actions/workflows/ci.yaml/badge.svg)
 
 ---
 
