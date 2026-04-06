@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "gitops-deployer"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.0.3",
+    "pyyaml>=6.0.2",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.3",
+    "paramiko>=3.4.0",
+]
+
+[project.scripts]
+gitops-deployer = "deployer.webhook.server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["deployer*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

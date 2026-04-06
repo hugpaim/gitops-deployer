@@ -1,0 +1,42 @@
+project: my-app
+repo: your-org/your-repo   # only respond to pushes from this repo
+
+branches:
+  main:
+    steps:
+      - name: Run tests
+        type: shell
+        run: "cd /opt/app && pytest tests/ -q"
+
+      - name: Build Docker image
+        type: docker_build
+        context: /opt/app
+        tag: "myrepo/my-app:latest"
+
+      - name: Push to registry
+        type: docker_push
+        tag: "myrepo/my-app:latest"
+
+      - name: Deploy via SSH
+        type: ssh_deploy
+        host: ${DEPLOY_HOST}
+        user: ${DEPLOY_USER:-deploy}
+        key_file: ~/.ssh/deploy_key
+        commands:
+          - docker pull myrepo/my-app:latest
+          - docker stop my-app || true
+          - docker rm my-app || true
+          - docker run -d --name my-app --restart unless-stopped -p 80:8000 myrepo/my-app:latest
+
+  staging:
+    steps:
+      - name: Run tests
+        type: shell
+        run: "cd /opt/staging && pytest -q"
+      - name: Restart staging service
+        type: shell
+        run: "systemctl restart my-app-staging"
+
+notifications:
+  slack_webhook: ${SLACK_WEBHOOK_URL}
+  discord_webhook: ${DISCORD_WEBHOOK_URL}
